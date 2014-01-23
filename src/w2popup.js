@@ -622,11 +622,11 @@ var w2alert = function (msg, title, callBack) {
 		w2popup.message({
 			width 	: 400,
 			height 	: 150,
-			html 	: '<div style="position: absolute; top: 0px; left: 0px; right: 0px; bottom: 40px; overflow: auto">'+
-					  '		<div class="w2ui-centered"><div style="font-size: 13px;">'+ msg +'</div></div>'+
+			html 	: '<div style="position: absolute; top: 0px; left: 0px; right: 0px; bottom: 45px; overflow: auto">'+
+					  '		<div class="w2ui-centered" style="font-size: 13px;">'+ msg +'</div>'+
 					  '</div>'+
 					  '<div style="position: absolute; bottom: 7px; left: 0px; right: 0px; text-align: center; padding: 5px">'+
-					  '		<input type="button" value="Ok" onclick="w2popup.message();" class="w2ui-popup-button">'+
+					  '		<button onclick="w2popup.message();" class="w2ui-popup-btn btn">'+ w2utils.lang('Ok') +'</button>'+
 					  '</div>',
 			onClose : function () { 
 				if (typeof callBack == 'function') callBack(); 
@@ -638,8 +638,8 @@ var w2alert = function (msg, title, callBack) {
 			height 	: 200,
 			showMax : false,
 			title 	: title,
-			body    : '<div class="w2ui-centered"><div style="font-size: 13px;">' + msg +'</div></div>',
-			buttons : '<input type="button" value="'+ w2utils.lang('Ok') +'" class="w2ui-popup-button" onclick="w2popup.close();">',
+			body    : '<div class="w2ui-centered" style="font-size: 13px;">' + msg +'</div>',
+			buttons : '<button onclick="w2popup.close();" class="w2ui-popup-btn btn">'+ w2utils.lang('Ok') +'</button>',
 			onClose : function () { 
 				if (typeof callBack == 'function') callBack(); 
 			} 
@@ -660,14 +660,14 @@ var w2confirm = function (msg, title, callBack) {
 			width 	: 400,
 			height 	: 150,
 			html 	: '<div style="position: absolute; top: 0px; left: 0px; right: 0px; bottom: 40px; overflow: auto">'+
-					  '		<div class="w2ui-centered"><div style="font-size: 13px;">'+ msg +'</div></div>'+
+					  '		<div class="w2ui-centered" style="font-size: 13px;">'+ msg +'</div>'+
 					  '</div>'+
 					  '<div style="position: absolute; bottom: 7px; left: 0px; right: 0px; text-align: center; padding: 5px">'+
-					  '		<input id="No" type="button" value="'+ w2utils.lang('No') +'" class="w2ui-popup-button">'+
-					  '		<input id="Yes" type="button" value="'+ w2utils.lang('Yes') +'" class="w2ui-popup-button">'+
+					  '		<button id="No" class="w2ui-popup-btn btn">'+ w2utils.lang('No') +'</button>'+
+					  '		<button id="Yes" class="w2ui-popup-btn btn">'+ w2utils.lang('Yes') +'</button>'+
 					  '</div>',
 			onOpen: function () {
-				$('#w2ui-popup .w2ui-popup-message .w2ui-popup-button').on('click', function (event) {
+				$('#w2ui-popup .w2ui-popup-message .btn').on('click', function (event) {
 					w2popup.message();
 					if (typeof callBack == 'function') callBack(event.target.id);
 				});
@@ -692,12 +692,12 @@ var w2confirm = function (msg, title, callBack) {
 			title   	: title,
 			modal		: true,
 			showClose	: false,
-			body    	: '<div class="w2ui-centered"><div style="font-size: 13px;">' + msg +'</div></div>',
-			buttons 	: '<input id="No" type="button" value="'+ w2utils.lang('No') +'" class="w2ui-popup-button">'+
-					  	  '<input id="Yes" type="button" value="'+ w2utils.lang('Yes') +'" class="w2ui-popup-button">',
+			body		: '<div class="w2ui-centered" style="font-size: 13px;">' + msg +'</div>',
+			buttons		: '<button id="No" class="w2ui-popup-btn btn">'+ w2utils.lang('No') +'</button>'+
+						  '<button id="Yes" class="w2ui-popup-btn btn">'+ w2utils.lang('Yes') +'</button>',
 			onOpen: function (event) {
 				event.onComplete = function () {
-					$('#w2ui-popup .w2ui-popup-button').on('click', function (event) {
+					$('#w2ui-popup .w2ui-popup-btn').on('click', function (event) {
 						w2popup.close();
 						if (typeof callBack == 'function') callBack(event.target.id);
 					});

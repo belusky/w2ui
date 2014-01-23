@@ -1,21 +1,21 @@
 // **********************************
 // -- Unit Tests: w2utils
 
-test( "w2utils.format()", function () {
+test( "w2utils.formatNumber()", function () {
 	var values = {
 		'1,000' 		: '1000',
 		'1,000.01' 		: '1000.01',
-		'1,000.0,001' 	: '1000.0001'
+		'1,000.0001' 	: '1000.0001'
 	}
-	equal( w2utils.format(), '',  			"- no argument -" );
-	equal( w2utils.format(''), '', 			"- blank -" );
-	equal( w2utils.format(null), '', 		"- null -" );
-	equal( w2utils.format(undefined), '',	"- undefined -" );
-	equal( w2utils.format({}), '', 			"- object -" );
-	equal( w2utils.format([]), '', 			"- array -" );
+	equal( w2utils.formatNumber(), '',  		"- no argument -" );
+	equal( w2utils.formatNumber(''), '', 		"- blank -" );
+	equal( w2utils.formatNumber(null), '', 		"- null -" );
+	equal( w2utils.formatNumber(undefined), '',	"- undefined -" );
+	equal( w2utils.formatNumber({}), '', 		"- object -" );
+	equal( w2utils.formatNumber([]), '', 		"- array -" );
 
 	for (var v in values) {
-		equal( w2utils.format(values[v]), v, 'Test: ' + values[v] + ' = ' + v);
+		equal( w2utils.formatNumber(values[v]), v, 'Test: ' + values[v] + ' = ' + v);
 	}
 });
 
@@ -105,11 +105,17 @@ test( "w2utils.isDate()", function() {
 	ok( w2utils.isDate('2013-31-1', 'yyyy-dd-mm') === true, "'2013-31-1', 'yyyy-dd-mm'" );
 	ok( w2utils.isDate('2013/1/31', 'yyyy/mm/dd') === true, "'2013/1/31', 'yyyy/mm/dd'" );
 	ok( w2utils.isDate('2013.1.31', 'yyyy.mm.dd') === true, "'2013.1.31', 'yyyy.mm.dd'" );
-	ok( w2utils.isDate('2013-1-31', 'yyyy-mm-dd') === true, "'2013-1/-1', 'yyyy-mm-dd'" );
+	ok( w2utils.isDate('2013-1-31', 'yyyy-mm-dd') === true, "'2013-1-1', 'yyyy-mm-dd'" );
+	ok( w2utils.isDate('13-1-31', 'yy-mm-dd') === true, "'13-1-31', 'yy-mm-dd'" );
+	ok( w2utils.isDate('31-1-13', 'dd-mm-yy') === true, "'31-1-13', 'dd-mm-yy'" );
 	ok( w2utils.isDate('2/29/2008', 'mm/dd/yyyy') === true, "'2/29/2008', 'mm/dd/yyyy' - Leap Year" );
 	ok( w2utils.isDate('2/29/2009', 'mm/dd/yyyy') === false,"'2/29/2009', 'mm/dd/yyyy' - Not Leap Year" );
 	ok( w2utils.isDate('24/29/2009', 'mm/dd/yyyy')=== false,"'24/29/2009', Wrong date" );
-	ok( w2utils.isDate('dk4', '') === false,"'dk3', Wrong date" );
+	ok( w2utils.isDate('dk3', '') === false,"'dk3', Wrong date" );
+	ok( w2utils.isDate('31 Jan, 2013', 'dd Mon, yyyy') === true, "'1 Jun, 2013', 'dd Mon, yyyy'");
+	ok( w2utils.isDate('30 Feb, 2013', 'dd Mon, yyyy') === false, "'30 Feb, 2013', 'dd Mon, yyyy'");
+	ok( w2utils.isDate('1 January, 2013', 'dd Month, yyyy') === true, "'1 January, 2013', 'dd Month, yyyy'");
+	ok( w2utils.isDate('January 5, 2013', 'Month dd, yyyy') === true, "'January 5, 2013', 'Month dd, yyyy'");
 });
 
 test( "w2utils.base64encode(), w2utils.base64decode()", function() {

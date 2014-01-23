@@ -10,6 +10,8 @@
 *	- add find() method to find nodes by a specific criteria (I want all nodes for exampe)
 *	- dbl click should be like it is in grid (with timer not HTML dbl click event)
 *	- reorder with grag and drop
+*	- add route property that would navigate to a #route
+*	- node.style is missleading
 *
 * == 1.4 changes
 *	- deleted getSelection().removeAllRanges() - see https://github.com/vitmalina/w2ui/issues/323
@@ -22,7 +24,7 @@
 		this.box			= null;
 		this.sidebar		= null;
 		this.parent			= null;
-		this.nodes			= [];		// Sidebar child nodes
+		this.nodes			= [];	// Sidebar child nodes
 		this.menu			= [];
 		this.selected		= null;	// current selected node (readonly)
 		this.img			= null;
@@ -89,7 +91,7 @@
 			img				: null,
 			icon			: null,
 			nodes			: [],
-			style			: '',
+			style			: '',			// additiona style for subitems
 			selected		: false,
 			expanded		: false,
 			hidden			: false,
@@ -174,6 +176,9 @@
 			for (var a = 0; a < arguments.length; a++) {
 				tmp = this.get(arguments[a]);
 				if (tmp === null) continue;
+				if (this.selected !== null && this.selected.id === tmp.id){
+					this.selected = null;
+				}
 				var ind  = this.get(tmp.parent, arguments[a], true);
 				if (ind === null) continue;
 				if (tmp.parent.nodes[ind].selected)	tmp.sidebar.unselect(tmp.id);
@@ -505,10 +510,10 @@
 			var item	= $(this.box).find('#node_'+ w2utils.escapeId(id));
 			var offset	= item.offset().top - body.offset().top;
 			if (offset + item.height() > body.height()) {
-				body.animate({ 'scrollTop': body.scrollTop() + body.height() / 1.3 });
+				body.animate({ 'scrollTop': body.scrollTop() + body.height() / 1.3 }, 250, 'linear');
 			}
 			if (offset <= 0) {
-				body.animate({ 'scrollTop': body.scrollTop() - body.height() / 1.3 });
+				body.animate({ 'scrollTop': body.scrollTop() - body.height() / 1.3 }, 250, 'linear');
 			}
 		},
 
@@ -545,7 +550,7 @@
 				}
 				// event after
 				obj.trigger($.extend(eventData, { phase: 'after' }));
-			}, 1);	
+			}, 150); // need timer 150 for FF
 		},
 
 		menuClick: function (itemId, index, event) {
